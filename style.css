@@ -524,7 +524,7 @@ blockquote{
     }
 
     .suggests__item:nth-child(3),
-    .suggests__item:nth-child(4){
+    .suggests__item:nth-child(1){
         display: none;
     }
 
