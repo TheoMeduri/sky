@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+    <title>Sky IA</title>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <h3 class="navbar__logo">SKY IA</h3>
+        <button class="navbar__button" id="themeToggler"><i class='bx bx-sun'></i></button>
+    </nav>
+
+    <header class="header">
+        <div class="header__title">
+            <h1>Olá!</h1>
+            <h2>Como posso ajudar você hoje?</h2>
+        </div>
+        <div class="suggests">
+            <div class="suggests__item">
+                <p class="suggests__item-text">
+                    Dê dicas para ajudar as crianças a terminar o dever de casa no prazo.
+                </p>
+                <div class="suggests__item-icon">
+                    <i class='bx bx-stopwatch'></i>
+                </div>
+            </div>
+            <div class="suggests__item">
+                <p class="suggests__item-text">
+                    Ajude-me a escrever um e-mail de ausência do escritório.
+                </p>
+                <div class="suggests__item-icon">
+                    <i class='bx bx-edit-alt'></i>
+                </div>
+            </div>
+            <div class="suggests__item">
+                <p class="suggests__item-text">
+                    Dê-me frases para aprender um novo idioma.
+                </p>
+                <div class="suggests__item-icon">
+                    <i class='bx bx-compass'></i>
+                </div>
+            </div>
+            <div class="suggests__item">
+                <p class="suggests__item-text">
+                    Mostre-me como construir algo manualmente.
+                </p>
+                <div class="suggests__item-icon">
+                    <i class='bx bx-wrench'></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="chats"></section>
+
+    <section class="prompt">
+        <button id="scrollToBottomButton" onclick="scrollToBottom()"><i class='bx bx-down-arrow-alt'></i></button>
+        <form action="#" class="prompt__form" novalidate>
+            <div class="prompt__input-wrapper">
+                <input type="text" placeholder="Escreva algo para o Sky" class="prompt__form-input" required>
+                <button class="prompt__form-button" id="sendButton">
+                    <i class='bx bx-send'></i>
+                </button>
+                <button class="prompt__form-button" id="deleteButton">
+                    <i class='bx bx-trash'></i>
+                </button>
+            </div>
+        </form>
+        <p class="prompt__disclaim">
+            O Sky pode exibir informações imprecisas, inclusive sobre pessoas, então verifique novamente suas respostas.
+        </p>
+    </section>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Variável para controlar se a rolagem está em andamento
+        let isScrolling = false;
+
+        // Função para rolar suavemente para o fundo
+        function scrollToBottom() {
+            if (isScrolling) return; // Evita múltiplas chamadas
+
+            const scrollHeight = document.body.scrollHeight;
+            const scrollStep = Math.ceil((scrollHeight - window.scrollY) / 10); // Altere o divisor para ajustar a velocidade
+            isScrolling = true; // Indica que a rolagem começou
+
+            const scrollInterval = setInterval(() => {
+                if (window.scrollY + window.innerHeight < scrollHeight) {
+                    window.scrollBy(0, scrollStep);
+                } else {
+                    clearInterval(scrollInterval); // Para a rolagem quando chega ao fundo
+                    isScrolling = false; // Indica que a rolagem terminou
+                }
+            }, 20); // Ajuste o tempo aqui para mais ou menos fluidez
+        }
+
+        // Exibir o botão quando o usuário rola para cima
+        window.onscroll = function () {
+            const button = document.getElementById("scrollToBottomButton");
+            
+            // Verifica se o usuário rolou mais de 5 pixels para cima
+            if (document.body.scrollTop > -10 || document.documentElement.scrollTop > 5) {
+                button.style.display = "block"; // Mostra o botão
+            } else {
+                button.style.display = "none"; // Oculta o botão
+            }
+
+            // Oculta o botão se o usuário estiver no fundo da página
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                button.style.display = "none"; // Oculta o botão
+            }
+        };
+
+        // Chama a função para rolar para baixo quando o DOM estiver totalmente carregado
+        document.addEventListener('DOMContentLoaded', scrollToBottom);
+
+        // Cria um MutationObserver para monitorar mudanças na seção .chats
+        const chatsSection = document.querySelector('.chats');
+        const observer = new MutationObserver(() => {
+            scrollToBottom();
+        });
+        observer.observe(chatsSection, { childList: true, subtree: true });
+
+    </script>
+</body>
+
+</html>
