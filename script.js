@@ -246,7 +246,7 @@ themeToggleButton.addEventListener('click', () => {
 
 // Clear all chat history
 clearChatButton.addEventListener('click', () => {
-    if (confirm("Are you sure you want to delete all chat history?")) {
+    if (confirm("Tem certeza de que deseja excluir todo o histórico do bate-papo?")) {
         localStorage.removeItem("saved-api-chats");
 
         // Reload chat history to reflect changes
